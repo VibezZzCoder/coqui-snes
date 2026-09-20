@@ -1,0 +1,122 @@
+THIRD-PARTY NOTICES
+===================
+
+Coqui al Anochecer contains third-party components. They are listed here in
+full. Everything not listed here is this project's own work; see NOTICE.md
+for the complete provenance statement.
+
+
+1. PVSnesLib
+   Copyright (C) 2012-2024 Alekmaul
+   https://github.com/alekmaul/pvsneslib
+
+   Coqui al Anochecer was assembled and linked with PVSnesLib 4.5.0. The
+   shipped ROM therefore contains PVSnesLib runtime code: its startup code,
+   the library routines the linker kept, and its SPC700 sound driver.
+
+   PVSnesLib is distributed under a permissive zlib-style licence, reproduced
+   in full below. Its canonical copy is maintained by the PVSnesLib project at
+   pvsneslib/pvsneslib_license.txt in the repository above.
+
+   The PVSnesLib toolkit and its source code are not redistributed in this
+   package. Nothing in this notice alters the licence that applies to the
+   Coqui al Anochecer project's own work.
+
+     --------------------------------------------------------------------------
+       Copyright (C) 2012-2024
+        Alekmaul
+
+       This software is provided 'as-is', without any express or implied
+       warranty.  In no event will the authors be held liable for any
+       damages arising from the use of this software.
+
+       Permission is granted to anyone to use this software for any
+       purpose, including commercial applications, and to alter it and
+       redistribute it freely, subject to the following restrictions:
+
+       1. The origin of this software must not be misrepresented; you
+          must not claim that you wrote the original software. If you use
+          this software in a product, an acknowledgment in the product
+          documentation would be appreciated but is not required.
+       2. Altered source versions must be plainly marked as such, and
+          must not be misrepresented as being the original software.
+       3. This notice may not be removed or altered from any source
+          distribution.
+     --------------------------------------------------------------------------
+
+
+2. SNESMod
+   Copyright 2009-2025 Mukunda Johnson (mukunda.com)
+   https://github.com/mukunda-/snesmod
+
+   The SPC700 music and sound-effect engine inside this ROM is SNESMod by
+   Mukunda Johnson, as ported into PVSnesLib (the vendored driver's source
+   header reads "(c) 2009 Mukunda Johnson / Bugfix by KungFuFurby / WLA-DX
+   conversion by pvsneslib team"). SNESMod is published by its author under
+   the permissive licence reproduced in full below (its LICENSING.txt,
+   retrieved 2026-09-20), which permits copying, modification and
+   redistribution provided this notice is included; PVSnesLib's port and
+   fixes reach this package under PVSnesLib's licence above. Both notices
+   travel with the ROM, and the author is named here because his code is in
+   it.
+
+     --------------------------------------------------------------------------
+       SNESMOD
+
+       Copyright 2009-2025 Mukunda Johnson (mukunda.com)
+
+       Permission is hereby granted, free of charge, to any person
+       obtaining a copy of this software and associated
+       documentation files (the "Software"), to deal in the
+       Software without restriction, including without limitation
+       the rights to use, copy, modify, merge, publish, distribute,
+       sublicense, and/or sell copies of the Software, and to
+       permit persons to whom the Software is furnished to do so,
+       subject to the following conditions:
+
+       The above copyright notice and this permission notice shall
+       be included in all copies or substantial portions of the
+       Software.
+
+       THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+       KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+       WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+       PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+       OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+       OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+       OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+       SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+     --------------------------------------------------------------------------
+
+   ALTERED VERSION NOTICE (zlib licence, condition 2; the SNESMod licence
+   above permits modification). The SNESMod driver in this ROM is not
+   byte-identical to the one PVSnesLib 4.5.0 ships: this project applies
+   three patches to it after linking (60 bytes differ in all; nothing else
+   in the driver changes). (1) ResetSound: the original
+   writes KOFF=$FF and KOFF=$00 60 SPC cycles apart while the S-DSP polls
+   KOFF every 64 cycles, so roughly one pause in sixteen never silenced the
+   sounding voices; the patch reorders the same writes and clears KOFF
+   through the driver's own resume-handler tail so the pulse lasts 78
+   cycles, and releases voices 0-5 only, so an effect already sounding is no
+   longer cut when the music stops or changes. (2) Module_UpdateChannels stops at
+   channel 5, so voices 6 and 7 belong to sound effects alone (this game's
+   music uses six voices). (3) Module_UpdateChannel collects the key-on bits
+   of a row instead of writing KON per voice, a wrapper in the unused
+   CMD_MVOL/CMD_FADE handler bytes writes KON once per tick after every
+   voice's registers, and SFX_Play writes an effect's KON after its
+   registers rather than before; CommandTable entries 5 and 6, which this
+   ROM never sends, become acknowledged no-ops. Patches 2 and 3 exist for
+   the SNES Classic's built-in emulator, on which the stock driver lost
+   every effect after the first and dropped chord voices. The patches and
+   their verifier are tools/patch_snesmod_koff.py in the project's
+   repository. These alterations are the Coqui al Anochecer project's, not
+   PVSnesLib's or SNESMod's.
+
+
+Nothing else. The font, every sprite and screen, and all music and sound in
+this ROM are this project's own work (NOTICE.md).
+
+Build-time tools that are NOT redistributed in this package, and whose
+licences therefore do not travel with it: the WLA-DX assembler and linker,
+gfx4snes, smconv, snesbrr, and the Python and Node tooling in the project's
+development tree.
