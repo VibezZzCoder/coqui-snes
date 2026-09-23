@@ -30,6 +30,13 @@ see `THIRD_PARTY_NOTICES.txt`.)
 *The title, the six screens of one night in the order you cross them, and the
 ending.*
 
+## Version 1.1
+
+The patched game version 1.1 fixes scenery, not gameplay. 
+
+Your 1.0 battery save carries over: keep the file name
+`coqui-al-anochecer.sfc` and your emulator picks up the same save.
+
 ## Play it
 
 Download `coqui-al-anochecer.sfc` and load it as an ordinary headerless NTSC
@@ -148,16 +155,21 @@ all six screens on every one of the six nights, the ending, the battery-save
 load, save and corrupt-save fallback, the sound-bank structure, HDMA timing
 and a frame-pacing budget.
 
-Tested by the author, by playing, on this exact ROM: an **SNES Classic
+Tested by the author, by playing, on version 1.0: an **SNES Classic
 Mini** (installed with hakchi, running the console's built-in emulator),
 from the title through all six nights with the three Master Nights included
 and the battery save intact; **ares v148** on a Mac, all six screens; and
 **Delta** on iOS, all six screens. Earlier builds were played through in
-ares with an Xbox controller and, with the battery save, in Delta. Nothing is
-claimed for original Super NES hardware or flash cartridges: neither has
-been tried.
+ares with an Xbox controller and, with the battery save, in Delta. Version
+1.1 changes only background art (on five screens and the Controls and
+Credits pages) and the header's version number; its game code, gameplay
+data, music and save format are unchanged from 1.0, and the Mesen gates
+above ran on this exact 1.1 file. Nothing is claimed for original Super NES
+hardware or flash cartridges: neither has been tried.
 
-No known defects. Three were found and fixed before release, all in the
+No known defects. Found after the 1.0 release and fixed in 1.1: scenery
+drawn as solid on squares you can walk through (see **Version 1.1**). Three
+were found and fixed before the 1.0 release, all in the
 bundled sound driver and none in the game's own code: the stock driver could
 miss its own key-off about one pause in sixteen and leave notes ringing
 through the pause, and on the SNES Classic's built-in emulator every sound
